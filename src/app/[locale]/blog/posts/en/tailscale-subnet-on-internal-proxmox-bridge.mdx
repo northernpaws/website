@@ -1,0 +1,112 @@
+---
+title: "Tailscale Subnet with Internal Proxmox Bridge"
+publishedAt: "2024-10-08"
+image: "/images/posts/tailscale-subnet-on-internal-proxmox-bridge/tailscale.png"
+summary: "Using Tailscale's Subnet routing with a Proxmox vBridge to connected LXCs to an internal VPN."
+tag: "Sysadmin"
+---
+
+## Creating the Linux Bridge
+
+To create the internal bridge we're going to be using for private networking between LXCs and containers we'll be using Linux Bridges with a private IP CIDR.
+
+For my setup, I'll be using the `10.8.0.1/24` CIDR. This will allow our LXCs and VMS to use the `10.8.0.x` IP range, and will provide the gateway for the network interface on `10.8.0.1`.
+
+You may need to pick a different IP range depending on if this range is already utilized internally, and as by a physical private network interface.
+
+To create the new Linux Bridge:
+- Select your Proxmox node in the left sidebar
+- Go to the "System -> Network" tag
+- Click on "Create", and select "Linux Bridge"
+- Fill in the details as shown below.
+
+![Screenshot showing the Linux Bridge configuration, using a CIDR of 10.8.0.1/24 and a name of vmbr10](/images/posts/tailscale-subnet-on-internal-proxmox-bridge/bridge-setup.png)
+
+After creating the bridge, click "Apply Configuration" in the top toolbar to apply our networking changes to the node.
+
+## Bridge Masquerading
+
+To allow the LXCs and VMs using the private IP range to still have external internet access, we'll need to enable [`iptables` masquerading](https://pve.proxmox.com/wiki/Network_Configuration#sysadmin_network_masquerading). The instructs IP tables to rewrite packets coming from the network as if they were sent on the host's IP.
+
+To enable masquerading, we'll edit the `/etc/network/interfaces` file by selecting "Shell" in the node tabs, and opening it using your editor of choice (i.e. `nano /etc/network/interfaces`). Find the `iface` block in the file for the new private bridge, and added the following `post-up` and `port-down` lines to the end of the block.
+
+<CodeBlock className="my-24"
+   compact
+   codeInstances={[{
+     code: `.....
+
+iface vmbr10 inet static
+        address 10.8.0.1/24
+        .....
+        post-up echo 1 > /proc/sys/net/ipv4/ip_forward
+        post-up iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o vmbr0 -j MASQUERADE
+        post-down iptables -t nat -D POSTROUTING -s 10.8.0.0/24 -o vmbr0 -j MASQUERADE
+
+.....`,
+     label: '/etc/network/interfaces',
+     language: ''
+   }]}
+  copyButton
+/>
+
+## Configuring Tailscale
+
+To connect a Tailscale VPN to our new private subnet, we'll need to create an LXC that has an IP in the subnet, and install the Tailscale router.
+
+Since my network is small, I created an LXC with:
+- 1 CPU Core
+- 512MiB of memory
+- 512MiB of swap
+- 8GiB disk
+
+For the LXC template, I used the `debian-12-standard` template that is included in the Proxmox template repository.
+
+### Enable IP Forwarding
+
+We'll need to [enable IP forwarding](https://tailscale.com/kb/1019/subnets#enable-ip-forwarding) inside the container before we can use Tailscale for IP forwarding to the private bridge.
+
+Open the Shell for the LXC, and run:
+
+<CodeBlock className="my-24"
+           compact
+           codeInstances={[{
+             code: `echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf
+echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf
+sudo sysctl -p /etc/sysctl.d/99-tailscale.conf`,
+             label: 'enabling IP forwarding',
+             language: 'bash'
+           }]}
+           copyButton
+/>
+
+### Installing Tailscale Client
+
+After creating and starting the LXC, I used the [tteck Tailscale script](https://tteck.github.io/Proxmox/#tailscale) for Proxmox. This involves starting the LXC, entering the Shell, and then running the following command to install Tailscale.
+
+<CodeBlock className="my-24"
+   compact
+   codeInstances={[{
+     code: `bash -c "$(wget -qLO - https://github.com/tteck/Proxmox/raw/main/misc/add-tailscale-lxc.sh)"`,
+     label: 'tteck Tailscale script',
+     language: 'bash'
+   }]}
+   copyButton
+/>
+
+After the installation finishes, we run `tailscale up` to start the VPN connection, also adding the `--advertise-routes` flag to inform the Tailscale agent which local routes we want to forward for.
+
+<CodeBlock className="my-24"
+           compact
+           codeInstances={[{
+             code: `tailscale up --advertise-routes=10.8.0.1/24`,
+             label: 'tteck Tailscale script',
+             language: 'bash'
+           }]}
+           copyButton
+/>
+
+After using the connection link echoed by the `tailscale up` command to add the client to your Tailnet, you'll need to go to the Tailscale dashboard and approve the subnet by going to the "Routing Settings" page for the new machine.
+
+Once the subnet is approved, you can add any machines to the new `vmbr10` bridge with a `10.8.0.x` IP address, and use that IP address to access it from any other client connected to the Tailnet (i.e. phone, laptop, PC)!
+
+To learn more about subnet routing, visit the [Tailscale Knowledgebase](https://tailscale.com/kb/1019/subnets).

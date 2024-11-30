@@ -1,0 +1,36 @@
+---
+title: "Recovering Teckin SP23 smart plugs, hacked with Tasmota firmware"
+publishedAt: "2020-08-12"
+summary: "Recovering Teckin SP23 smart plugs hacked with Tasmota firmware"
+tag: "Home Automation"
+---
+
+My roommate had purchased some generic Teckin SP22 smart plugs a few years back for their old setup. A couple of years ago he'd spent a weekend figuring out how to hack them to replace the firmware with the custom Tasmota firmware to control them through a NodeJS script, and so they could get power metrics about their PC that was plugged into it.
+
+We just moved in together in a new flat with a brand new Wi-Fi router. We'd started setting up our own smart home system, but they wasn't sure how to go about reconfiguring their old plugs to work on the new Wi-Fi.
+
+After some digging around I managed to find the guide he'd used to originally flash the plugs with the custom firmware (https://tech.scargill.net/teckin-sp23-smart-socket/) but it only provided initial setup instructions and nothing about resetting them.
+
+After some digging, I discovered that the guide flashed the plugins with the customer Tasmota firmware designed for a wide range of generic Chinese-based smart devices from Tuya.
+
+Despite Tasmota apparently being widely used in the home automating hobby sector, I had a very difficult time finding information on how to go about resetting a plug - even their documentation was little help.
+
+After searching for half an hour, I decided to just try the usual things - pressing the power button multiple times, holding it for different times, etc. Eventually, I discovered that holding the button for more than 60 seconds seemed to have done something as the light turned off. When I checked the local Wi-Fi networks I found one named tasmota-XXXX!
+
+After that it was simply a matter of connecting to the Wi-Fi, changing the Wi-Fi settings to connect to our home network, and then restarting the plugs.
+
+But now I was faced with another issue.
+
+Before resetting the plugs they were functioning perfectly fine, but after resetting and switching to the correct Wi-Fi the light on the plugs was no longer turning on and the plug wasn't powering any devices.
+
+I dug through the configuration on the plug's web interface a bit more and found that there was a setting for what type of module the firmware was installed on. After changing that to Teckin, the UI started showing power metrics which was a good sign, but the button and light still weren't working.
+
+![A screenshot of the Tasmota interface for configuring GPIO pins.](/images/posts/teckin-sp23-smart-plugs-tasmota-firmware/tasmota-gpio.jpg)
+
+![A screenshot of the Tasmota dashboard, showing power usage stats.](/images/posts/teckin-sp23-smart-plugs-tasmota-firmware/tasmota-dashboard.jpg)
+
+After digging around some more on the guide my roommate had used to originally flash the plugs I discovered a page with a list of templates for the Tasmota firmware. The templates are used to properly determine how to properly interact with the device the firmware is on, such as turning the light on and off and listing for when the button was pressed.
+
+![A screenshot of the Tasmota dashboard, showing template configuration screen.](/images/posts/teckin-sp23-smart-plugs-tasmota-firmware/tasmota-config.jpg)
+
+After copying the template from https://templates.blakadder.com/teckin_SP23.html into the template configuration section on the firmware, the plug started working perfectly!
