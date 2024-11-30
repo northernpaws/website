@@ -48,7 +48,7 @@ const home = {
     title: `${person.name}'s Portfolio`,
     description: `Portfolio website showcasing my work as a ${person.role}`,
     headline: <>Developer</>,
-    subline: <>I'm Kat, a developer passionate about open-source, Linux, game-dev, and problem solving.</>
+    subline: <>I'm Kat, a developer passionate about open-source, Linux, Game Development, and problem solving.</>
 }
 
 const about = {
@@ -69,7 +69,7 @@ const about = {
     intro: {
         display: true,
         title: 'Introduction',
-        description: <>Kat is a Canadian-based developer, passionate about open-source, Linux, game-dev, and problem solving.</>
+        description: <>Kat is a Canadian-based developer, passionate about open-source, Linux, Game Development, and problem solving.</>
     },
     work: {
         display: true, // set to false to hide this section
