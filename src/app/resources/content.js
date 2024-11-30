@@ -1,4 +1,4 @@
-import { InlineCode } from "@/once-ui/components";
+// import { InlineCode } from "@/once-ui/components";
 
 const person = {
     firstName: 'Kat',
@@ -84,7 +84,7 @@ const about = {
                     <>Managed Git-based CI/CD deployments and infrastructure for the company website and digital storefront.</>,
                     <>Installed Proxmox on a dedicated sever and migrated legacy infrastructure to a streamlined setup utilizing LXC containers.</>
                 ],
-                images: [  ]
+                images: [ ]
             },
             {
                 company: 'Iceline Hosting - Contract',
@@ -94,7 +94,8 @@ const about = {
                     <>Aided the customer support department in resolving Linux systems-administration related customer tickets.</>,
                     <>Managed a specialized fork of an open-source management panel, contributing back to the original open-source project as we made improvements.</>,
                     <>Performed Linux systems administration for the bare-metal dedicated servers running the customer's services.</>,
-                    <>Created a modern static website, drastically increasing SEO rankings and scores, causing a large growth in customers.</>
+                    <>Created a modern static website, drastically increasing SEO rankings and scores, causing a large growth in customers.</>,
+                    <>Administrated the hardware for a 1000+ participant virtual concert, sponsored in collaboration with, NTeam Roleplay, Redbull, and the Bosnia musicians Bruda and Helem Nejse.</>
                 ],
                 images: [
                     {
