@@ -48,7 +48,7 @@ const home = {
     title: `${person.name}'s Portfolio`,
     description: `Portfolio website showcasing my work as a ${person.role}`,
     headline: <>Developer</>,
-    subline: <>I'm Kat, a developer passionate about open-source, Linux, documentation, and solving issues that improve user experiences.</>
+    subline: <>I'm Kat, a developer passionate about open-source, Linux, game-dev, and problem solving.</>
 }
 
 const about = {
@@ -69,7 +69,7 @@ const about = {
     intro: {
         display: true,
         title: 'Introduction',
-        description: <>Kat is a Canadian-based developer, passionate about open-source, Linux, and making software accessible and polished for end-users.</>
+        description: <>Kat is a Canadian-based developer, passionate about open-source, Linux, game-dev, and problem solving.</>
     },
     work: {
         display: true, // set to false to hide this section
@@ -205,6 +205,11 @@ const about = {
             {
                 title: 'Programming Languages',
                 description: <>C, C++, Golang, JavaScript, TypeScript, and PHP.</>,
+                images: [ ]
+            },
+            {
+                title: 'Game Programming',
+                description: <>Unity, Unreal Engine 5, Godot, custom C++ engines</>,
                 images: [ ]
             },
             {
