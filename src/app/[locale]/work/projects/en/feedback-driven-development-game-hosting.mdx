@@ -1,0 +1,57 @@
+---
+title: "Implementing Customer-Driven Development."
+publishedAt: "2024-04-01"
+summary: "Using open-source software and new Git-based workflows to improve customer experiences."
+images:
+  - "/images/projects/iceline/console.webp"
+  - "/images/projects/iceline/mod-manager.webp"
+---
+
+## The Problems
+
+When I was first hired by Iceline Hosting as a developer, they were running an open-source game server management panel, Pterodactyl, for deploying and managing customer services. After a recent large increase in customers due to the COVID19 Pandemic, they were also struggling to effectively manage customer services using the available tools in the open-source panel.
+
+Because of the scaling issues, customer support was also struggling to effectively diagnose and fix development-related issues that came up with the panel, and it's deployment. Customers where frequently frustrated with an inconsistent experience, and slow issue resolution times due to the lack of procedures.
+
+I was tasked with both improving the user-experience from the panel side, and trying to improve the issue-to-resolution process for support.
+
+## My Solutions
+
+- **Custom Fork**: I forked the Pterodactyl Panel and Daemon and re-built the customer-facing side with a new more-accessible theme, and new features that greatly improved customer experiences (automated backups, plugin management, support access, and more.).
+
+- **Application Monitoring**: Integrated Sentry with the new customer-facing panel, which allowed the development team and support to quickly view and diagnosis exceptions customers experienced much faster than diagnosing them directly with the customer.
+
+- **GitOps Deployment**: Integrated Git-based workflows for deploying new versions of the panel directly to the servers, replacing the previously established process of manually copying new sets of files over every time there was a minor change.
+
+- **Customer-driven Development**: Established a process with the support team to feed any customer complaints or suggestions directly back to me, which allowed me to directly implement new game-specific processes on the fly.
+
+- **Design System**: I worked directly with a UI/UX designer I knew to build an evolving design system for the customer-facing panel, ensuring that the new design and any future changes or requirements where kept consistent across all pages.
+
+- **Automated Testing**: Upgraded the panel testing workflow from manual builds, to a CI/CD workflow with GitHub Actions. This significantly reduced development and release times for new features by as much as 2-3 months.
+
+- **Documentation**: When I took ownership of the project, I found that the previous developers had left no documentation or maintenance/deployment protocols. During my development, I wrote extensive documentation and guides that are still used today by the new development team.
+
+## Technologies Used
+
+- **Git & GitHub**: For our custom forks, and CI/CD testing and deployment workflows.
+- **React**: For building a new front-end panel experience from the existing panel.
+- **Sentry**: For capturing and diagnosing issues and exceptions customers experienced.
+- **Pterodactyl**: For the base open-source game server management panel I build our fork from.
+- **Nginx + PHP-FPM**: For the PHP webserver used to serve the game panel.
+
+## Challenges and Learnings
+
+One of the biggest challenges was to ensure that my new design for the customer-facing panel, and any future modifications made by me or other developers, where kept consistent for the customers. To achieve this, I worked with a UI/UX designer I knew to build a design system specialized to the panel, and it's unique gaming-related components.
+
+The other large challenge was coordinating with the large support to establish guidelines on what types of issues and feature requests to forward to me for review. After a few months of working with the support leads, we established a robust process that my development team was able to quickly react to issues without also dealing with minor requests the support department was able to handle.
+
+## Outcome
+
+- The specialized Pterodactyl panel fork reduced panel-related support tickets from around of 20-30 a day across 200+ customers, down to around 2.
+- My new direct-to-development process I established with the support team saw customer feature-request tickets almost stop entirely, as I was able to effectively understand and anticipate unique game-specific needs.
+- The design system we established saw a significant drop in assistance-related support tickets, as customers where now finding what they needed much easier.
+- The GitOps-based automated deployment workflows I implemented reduced the time to deploy bug fixed from 1-2 weeks, down to just a couple of days.
+- The automated CI/CD testing workflows I implemented almost eliminated semi-broken features, bugs, and major security issues being deployed to production.
+- Average customer reviews for Iceline Hosting on TrustPilot increased from around 4.4 stars to 4.8 in the 3 months after the release of the new panel, with the new panel being specified as a reason for new ratings.
+
+I also contributed all the major improvements and changes made in our Pterodacyl fork back to the original open-source project, fixing several critical bugs and potential symlink-based security vulnerabilities I discovered.

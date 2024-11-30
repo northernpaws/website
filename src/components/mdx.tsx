@@ -122,6 +122,16 @@ function createParagraph({ children }: TextProps) {
     );
 };
 
+function createListItem({ children }: TextProps) {
+    return (
+      <li style={{
+          margin: '0.5em 0'
+      }}>
+          {children}
+      </li>
+    );
+};
+
 const components = {
     p: createParagraph as any,
     h1: createHeading(1) as any,
@@ -132,6 +142,7 @@ const components = {
     h6: createHeading(6) as any,
     img: createImage as any,
     a: CustomLink as any,
+    li: createListItem as any,
     Table,
     CodeBlock
 };

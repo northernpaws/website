@@ -1,15 +1,15 @@
 import { InlineCode } from "@/once-ui/components";
 
 const person = {
-    firstName: 'Selene',
-    lastName:  'Yu',
+    firstName: 'Kat',
+    lastName:  '',
     get name() {
-        return `${this.firstName} ${this.lastName}`;
+        return `${this.firstName}`; //  ${this.lastName}
     },
-    role:      'Design Engineer',
+    role:      'Developer',
     avatar:    '/images/avatar.jpg',
-    location:  'Asia/Jakarta',        // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-    languages: ['English', 'Bahasa']  // optional: Leave the array empty if you don't want to display languages
+    location:  'America/Los_Angeles',        // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
+    languages: [] // 'English' // optional: Leave the array empty if you don't want to display languages
 }
 
 const newsletter = {
@@ -24,31 +24,31 @@ const social = [
     {
         name: 'GitHub',
         icon: 'github',
-        link: 'https://github.com/once-ui-system/nextjs-starter',
+        link: 'https://github.com/northernpaws',
     },
     {
         name: 'LinkedIn',
         icon: 'linkedin',
-        link: 'https://www.linkedin.com/company/once-ui/',
+        link: 'https://www.linkedin.com/in/kat-m-5979a714b/',
     },
-    {
-        name: 'X',
-        icon: 'x',
-        link: '',
-    },
-    {
-        name: 'Email',
-        icon: 'email',
-        link: 'mailto:example@gmail.com',
-    },
+    // {
+    //     name: 'X',
+    //     icon: 'x',
+    //     link: '',
+    // },
+    // {
+    //     name: 'Email',
+    //     icon: 'email',
+    //     link: 'mailto:example@gmail.com',
+    // },
 ]
 
 const home = {
     label: 'Home',
     title: `${person.name}'s Portfolio`,
     description: `Portfolio website showcasing my work as a ${person.role}`,
-    headline: <>Design engineer and builder</>,
-    subline: <>I'm Selene, a design engineer at <InlineCode>FLY</InlineCode>, where I craft intuitive<br/> user experiences. After hours, I build my own projects.</>
+    headline: <>Developer</>,
+    subline: <>I'm Kat, a developer passionate about open-source, Linux, documentation, and solving issues that improve user experiences.</>
 }
 
 const about = {
@@ -60,45 +60,115 @@ const about = {
         subItems: false
     },
     avatar: {
-        display: true
+        display: false
     },
     calendar: {
-        display: true,
+        display: false,
         link: 'https://cal.com'
     },
     intro: {
         display: true,
         title: 'Introduction',
-        description: <>Selene is a Jakarta-based design engineer with a passion for transforming complex challenges into simple, elegant design solutions. Her work spans digital interfaces, interactive experiences, and the convergence of design and technology.</>
+        description: <>Kat is a Canadian-based developer, passionate about open-source, Linux, and making software accessible and polished for end-users.</>
     },
     work: {
         display: true, // set to false to hide this section
         title: 'Work Experience',
         experiences: [
             {
-                company: 'FLY',
+                company: 'Locate Press - Part Time',
                 timeframe: '2022 - Present',
-                role: 'Senior Design Engineer',
+                role: 'Technical Editor & Systems Administrator',
                 achievements: [
-                    <>Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user engagement and 30% faster load times.</>,
-                    <>Spearheaded the integration of AI tools into design workflows, enabling designers to iterate 50% faster.</>
+                    <>Edited, proofread, and performed technical edits and inline code validation for technical books/manuals.</>,
+                    <>Managed Git-based CI/CD deployments and infrastructure for the company website and digital storefront.</>,
+                    <>Installed Proxmox on a dedicated sever and migrated legacy infrastructure to a streamlined setup utilizing LXC containers.</>
                 ],
-                images: [ // optional: leave the array empty if you don't want to display images
+                images: [  ]
+            },
+            {
+                company: 'Iceline Hosting - Contract',
+                timeframe: '2020 - 2022',
+                role: 'Multiple Roles',
+                achievements: [
+                    <>Aided the customer support department in resolving Linux systems-administration related customer tickets.</>,
+                    <>Managed a specialized fork of an open-source management panel, contributing back to the original open-source project as we made improvements.</>,
+                    <>Performed Linux systems administration for the bare-metal dedicated servers running the customer's services.</>,
+                    <>Created a modern static website, drastically increasing SEO rankings and scores, causing a large growth in customers.</>
+                ],
+                images: [
                     {
-                        src: '/images/projects/project-01/cover-01.jpg',
-                        alt: 'Once UI Project',
+                        src: '/images/projects/iceline/website.jpg',
+                        alt: 'Picture of the Iceline Hosting homepage I developed',
                         width: 16,
                         height: 9
                     }
                 ]
             },
             {
-                company: 'Creativ3',
-                timeframe: '2018 - 2022',
-                role: 'Lead Designer',
+                company: 'Creavite - Co-Founder',
+                timeframe: '2020 - 2021',
+                role: 'Software Developer',
                 achievements: [
-                    <>Developed a design system that unified the brand across multiple platforms, improving design consistency by 40%.</>,
-                    <>Led a cross-functional team to launch a new product line, contributing to a 15% increase in overall company revenue.</>
+                    <>Built a Linux-based automated rendering system using open-source projects, Golang, Adobe After Effects, and event queues.</>,
+                    <>The system served 15,000 customers in the first year, delivering over 2,000,000 personalized renders and graphics.</>
+                ],
+                images: [
+                    {
+                        src: '/images/projects/creavite/cover.jpg',
+                        alt: 'A white banner with the words "Creavite", and "Free top of the line animated graphics"',
+                        width: 16,
+                        height: 9
+                    }
+                ]
+            },
+            {
+                company: 'TabTime - Freelance',
+                timeframe: '2020 - 2021',
+                role: 'Software Developer',
+                achievements: [
+                    <>Developed an event-driven cellular notification server for patient and carer managed medication reminders.</>,
+                    <>Created a system to allow carers to record and assign personalized voice messages for their patient's reminders.</>,
+                    <>Worked directly with feedback from batches of perspective customers to design the system around their specific needs.</>
+                ],
+                images: [ ]
+            },
+            {
+                company: 'Teconica - Full Time',
+                timeframe: '2018 - 2020',
+                role: 'Sysadmin & Software Developer',
+                achievements: [
+                    <>Managed Kubernetes-based serverless infrastructure for deploying websites and microservices for clients.</>,
+                    <>Installed and managed cloud hosting infrastructure, including Openstack, Virtualizor, and Ceph.</>,
+                    <>Collaborated with datacenter technicians at Equinix Datacenters to build, install, and initialize owned hardware.</>,
+                    <>Performed development and Linux administration work for sister companies as required.</>
+                ],
+                images: [ ]
+            },
+            {
+                company: 'Legendary Hosts - Full Time',
+                timeframe: '2017 - 2018',
+                role: 'Fullstack Web Developer',
+                achievements: [
+                    <>Developed a customer-facing website and panel for managing Linux servers.</>,
+                    <>Connected the customer panel to on-prem cloud services, including Openstack, Virtualizor, and Ceph.</>
+                ],
+                images: [
+                    {
+                        src: '/images/projects/legendary-hosts/homepage.jpg',
+                        alt: 'A picture of a website homepage, white background with red accents.',
+                        width: 16,
+                        height: 9
+                    }
+                ]
+            },
+            {
+                company: 'LandStream - Contract',
+                timeframe: '2015-2016',
+                role: 'Fullstack Web Developer',
+                achievements: [
+                    <>Created an interactive 3D-map allowing customers to explore core soil samples and IoT mesh sensors on their farms.</>,
+                    <>Featured in a presentation given to Harvards's School of Forestry in 2019, demonstrating sample-collection techniques and how my map visualized them.</>
                 ],
                 images: [ ]
             }
@@ -109,13 +179,17 @@ const about = {
         title: 'Studies',
         institutions: [
             {
-                name: 'University of Jakarta',
-                description: <>Studied software engineering.</>,
+                name: 'Treehouse - Full Stack JavaScript Techdegree (2018)',
+                description: <>Online diploma program equivalent to a college-level program consisting of 12 units. Had to leave due to burnout, but completed 11 of the 12 units with grades of "Meets Expectations" or "Exceeds Expectations".</>,
             },
             {
-                name: 'Build the Future',
-                description: <>Studied online marketing and personal branding.</>,
-            }
+                name: 'High School Diploma (2018)',
+                description: <>Cumulative GPA 3.66</>,
+            },
+            {
+                name: 'Treehouse - Web Design Track (2017)',
+                description: <>40-hour program covering the fundamentals of web design including branding principles such as branding, color theory, and typography.</>,
+            },
         ]
     },
     technical: {
@@ -123,34 +197,24 @@ const about = {
         title: 'Technical skills',
         skills: [
             {
-                title: 'Figma',
-                description: <>Able to prototype in Figma with Once UI with unnatural speed.</>,
-                images: [
-                    {
-                        src: '/images/projects/project-01/cover-02.jpg',
-                        alt: 'Project image',
-                        width: 16,
-                        height: 9
-                    },
-                    {
-                        src: '/images/projects/project-01/cover-03.jpg',
-                        alt: 'Project image',
-                        width: 16,
-                        height: 9
-                    },
-                ]
+                title: 'Linux Systems Administration',
+                description: <>Administrating Linux systems, particularly with Debian, Ubuntu, and CentOS.</>,
+                images: [ ]
             },
             {
-                title: 'Next.js',
-                description: <>Building next gen apps with Next.js + Once UI + Supabase.</>,
-                images: [
-                    {
-                        src: '/images/projects/project-01/cover-04.jpg',
-                        alt: 'Project image',
-                        width: 16,
-                        height: 9
-                    },
-                ]
+                title: 'Programming Languages',
+                description: <>C, C++, Golang, JavaScript, TypeScript, and PHP.</>,
+                images: [ ]
+            },
+            {
+                title: 'Git',
+                description: <>Repository management, Pull Requests, CI/CD processes, and code review.</>,
+                images: [ ]
+            },
+            {
+                title: 'Web Development',
+                description: <>Building web apps with Typescript, Node.js, Next.js, and React.</>,
+                images: [ ]
             }
         ]
     }
