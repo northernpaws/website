@@ -43,13 +43,13 @@ add_custom_target(install_${PROJECT_NAME}
         COMMENT "Installing ${PROJECT_NAME}")
 ```
 
-Now in your CLion run configurations you'll find a "install_<project name>" target, that when built, will build the GDExtension and then copy all the required files into the project's `addons` directory.
+Now in your CLion run configurations you'll find a "install_project" target, that when built, will build the GDExtension and then copy all the required files into the project's `addons` directory.
 
 You'll also want to add a `.gitignore` to ensure you're not committing the build GDExtension from within the project directory.
 
 ```gitignore
 # project/addons/.gitignore
-<project_name>/
+project_name/
 ```
 
 ## Debugging with CLion
@@ -97,7 +97,7 @@ First, go to Run/Debug Configurations for your project (top-left) in CLion, and 
 
 ![Screenshot showing how the run configuration is configured in CLion](/images/posts/debugging-cpp-godot-extensions/run_configuration.png)
 
-For the configuration target, choose the `install_<project name>` custom target we created above. This means that before running the Godot editor, CLion will call CMake to ensure the project is built, and will "install" any modified GDExtension files into the project folder.
+For the configuration target, choose the `install_project` custom target we created above. This means that before running the Godot editor, CLion will call CMake to ensure the project is built, and will "install" any modified GDExtension files into the project folder.
 
 For the executable, pick the Godot editor.
 
