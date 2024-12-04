@@ -81,6 +81,7 @@ const about = {
                 role: 'Technical Editor & Systems Administrator',
                 achievements: [
                     <>Edited, proofread, and performed technical edits and inline code validation for technical books/manuals.</>,
+                    <>Build and maintained tools for content management and book building.</>,
                     <>Managed Git-based CI/CD deployments and infrastructure for the company website and digital storefront.</>,
                     <>Installed Proxmox on a dedicated sever and migrated legacy infrastructure to a streamlined setup utilizing LXC containers.</>
                 ],
@@ -142,7 +143,8 @@ const about = {
                     <>Managed Kubernetes-based serverless infrastructure for deploying websites and microservices for clients.</>,
                     <>Installed and managed cloud hosting infrastructure, including Openstack, Virtualizor, and Ceph.</>,
                     <>Collaborated with datacenter technicians at Equinix Datacenters to build, install, and initialize owned hardware.</>,
-                    <>Performed development and Linux administration work for sister companies as required.</>
+                    <>Performed development and Linux administration work for sister companies as required.</>,
+                    <>Worked on an house C++ game engine on the graphics pipeline and asset ingesting tooling.</>
                 ],
                 images: [ ]
             },
