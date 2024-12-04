@@ -1,0 +1,124 @@
+---
+title: "Debugging Godot C++ GDExtensions with CLion"
+publishedAt: "2024-11-30"
+summary: "Using CLion's integrated debugger on C++ GDExtensions running in the Godot editor."
+tag: "Game Development"
+---
+
+For starting my C++-based Godot projects I like to use [this template by Andy Maloney](https://github.com/asmaloney/GDExtensionTemplate).
+
+Instead of using SCons for building, this template configures Godot's C++ API with a CMake file, making the project more-compatible with IDEs, notably my favourite (as you probably guessed from the title) CLion.
+
+This template works great out of the box for building a GDExtension, but I like to extend with a few additional files and settings to really make it integrate nicely with CLion to speed up the development process.
+
+## Including a Godot Project
+
+When I'm just building a GDExtension to use as a library, I like to include a `demo` folder in the repository containing a Godot project that can be immediately opened after building to test the extension.
+
+Likewise, when I'm building a Godot project where I want to use C++, I'll use the template above, and then create a `project` directory containing a Godot project.
+
+Now, we can manually copy the built GDExtension into the project. But, since the above template is also configured to use CMake's install process to all the plugin files to a directory of our choosing.
+
+First, lets add a default install path at the top of the `CMakeLists.txt` file (needs to be before the `project()` instruction):
+
+```cmake
+# Install the build plugin files to the project directory.
+#
+# NOTE: CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT SHOULD be true
+# for "/usr/local", but for some reason it is not on my machine.
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT OR CMAKE_INSTALL_PREFIX STREQUAL "/usr/local")
+    set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "${CMAKE_SOURCE_DIR}/project/addons")
+endif()
+```
+
+> Note that we make this optional depending on if the default install prefix is in use or not, this allows other processes like GitHub Actions to still set a custom prefix as needed.
+
+Now, at the bottom of the `CMakeLists.txt` we're going to add a custom target. This custom target will just run the CMake install command for us, but adding it allows CLion to target it as a run configuration.
+
+```cmake
+# Custom target to make CLion targets easier for debugging.
+add_custom_target(install_${PROJECT_NAME}
+        "${CMAKE_COMMAND}" --build "${CMAKE_BINARY_DIR}" --target install
+        DEPENDS ${PROJECT_NAME}
+        COMMENT "Installing ${PROJECT_NAME}")
+```
+
+Now in your CLion run configurations you'll find a "install_<project name>" target, that when built, will build the GDExtension and then copy all the required files into the project's `addons` directory.
+
+You'll also want to add a `.gitignore` to ensure you're not committing the build GDExtension from within the project directory.
+
+```gitignore
+# project/addons/.gitignore
+<project_name>/
+```
+
+## Debugging with CLion
+
+After following the steps above to add an installation target to CLion's run configurations, we can now create a custom run/debug configuration that launches Godot for us directory, autoloads the project, and attaches the debugger automatically.
+
+> **MacOS Note**
+>
+> To enable debugging the library within Godot on MacOS, you'll need to modify the entitlements of the Godot editor to allow the com.apple.security.get-task-allow entitlement so that the debugger can attach to the process.
+>
+> Create a file called `editor.entitlements` in the root of your project:
+> ```
+> <?xml version="1.0" encoding="UTF-8"?>
+> <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+> <plist version="1.0">
+>   <dict>
+>     <key>com.apple.security.cs.allow-dyld-environment-variables</key>
+>     <true/>
+>     <key>com.apple.security.cs.allow-jit</key>
+>     <true/>
+>     <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+>     <true/>
+>     <key>com.apple.security.cs.disable-executable-page-protection</key>
+>     <true/>
+>     <key>com.apple.security.cs.disable-library-validation</key>
+>     <true/>
+>     <key>com.apple.security.device.audio-input</key>
+>     <true/>
+>     <key>com.apple.security.device.camera</key>
+>     <true/>
+>     <key>com.apple.security.get-task-allow</key>
+>     <true/>
+>   </dict>
+> </plist>
+> ```
+>
+> And then run the command:
+> ```bash
+> $ codesign -s - --deep --force --options=runtime --entitlements ./editor.entitlements /Applications/Godot.app
+> ```
+>
+> Note that this may cause a security signing warning the next time you start the Godot editor.
+
+First, go to Run/Debug Configurations for your project (top-left) in CLion, and we're going to create a new "Native Application" configuration.
+
+![Screenshot showing how the run configuration is configured in CLion](/images/posts/debugging-cpp-godot-extensions/run_configuration.png)
+
+For the configuration target, choose the `install_<project name>` custom target we created above. This means that before running the Godot editor, CLion will call CMake to ensure the project is built, and will "install" any modified GDExtension files into the project folder.
+
+For the executable, pick the Godot editor.
+
+> **MacOS Note**
+>
+> On MacOS, picking `Godot.app` will open the package tree. Navigate to the `Contents > MacOS` directory within the app, and select the `Godot` executable.
+
+Now, for our program arguments:
+```
+--verbose --debug --editor --path project --windowed --resolution 1000x800
+```
+
+- `--verbose`: Enabled verbose logging from the editor, useful for debugging GDExtension issues.
+- `--debug`: Starts the Editor in debug mode, which loads extra debugging symbols.
+- `--editor`: Instructs Godot to open directly to the editor, and not to the project launcher.
+- `--path`: Tells Godot where the project we want to open is located.
+- `--windows`: Doesn't maximize the window on start.
+- `--resolution`: Sets the starting resolution of the Godot window, prevents it from covering too much of the screen.
+
+Set the Working directory to `$ContentRoot$` so it correctly finds the Godot project path relative to our project.
+
+And lastly, for the debugger to work correctly, check the "Run with root privileges" box.
+
+Now you can select the Godot run configuration we created in the CLion toolbar, and if you hit "Debug" it'll build our extension, launch the Godot editor, attach the debugger, and load our extension, all automatically!
