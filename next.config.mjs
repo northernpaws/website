@@ -11,6 +11,9 @@ const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
+    images: {
+        domains: ['images.unsplash.com']
+    },
 };
 
 export default withNextIntl(withMDX(nextConfig));
