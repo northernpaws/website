@@ -298,7 +298,7 @@ const gallery = {
         { 
             src: 'https://images.unsplash.com/photo-1729834800918-94327546f0f6?q=80&w=1530&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
             alt: 'image',
-            orientation: 'horizontal'
+            orientation: 'vertical'
         },
         { 
             src: 'https://images.unsplash.com/photo-1730595447878-aa550b38dd75?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
