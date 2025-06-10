@@ -2,13 +2,13 @@
 
 const person = {
     firstName: 'Kat',
-    lastName:  '',
+    lastName:  'Mitchell',
     get name() {
         return `${this.firstName}`; //  ${this.lastName}
     },
     role:      'Developer',
     avatar:    '/images/avatar.jpg',
-    location:  'America/Los_Angeles',        // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
+    location:  'Alberta/Canada',        // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
     languages: [] // 'English' // optional: Leave the array empty if you don't want to display languages
 }
 
